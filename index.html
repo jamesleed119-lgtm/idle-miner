@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="true">
+    <title>Idle Miner Tycoon</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            color: #fff;
+            touch-action: none;
+            -ms-touch-action: none;
+        }
+
+        #c2canvasdiv,
+        #c2canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        canvas {
+            display: block;
+            touch-action: none;
+            -ms-touch-action: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="fb-root"></div>
+    <div id="c2canvasdiv">
+        <canvas id="c2canvas" width="1280" height="720">
+            <h1>Your browser does not appear to support HTML5.</h1>
+        </canvas>
+    </div>
+
+    <script>
+        window.SDK_OPTIONS = {
+            gameId: "yvegxvy0h07947o0gmeiojd24omjnjsa",
+            onEvent: function (event) {
+                switch (event.name) {
+                    case "SDK_GAME_PAUSE":
+                    case "SDK_GAME_START":
+                    case "SDK_READY":
+                        break;
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@71c149b76c77807157b3cd19d2302ff8feb53593/idlemin.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@71c149b76c77807157b3cd19d2302ff8feb53593/c2.js"></script>
+    <script>
+        function google_analytics() {
+            if (typeof sdk !== "undefined" && typeof sdk.showBanner !== "undefined") {
+                sdk.showBanner();
+            }
+        }
+
+        function onVisibilityChanged() {
+            var hidden = document.hidden || document.mozHidden || document.webkitHidden || document.msHidden;
+            if (typeof cr_setSuspended === "function") {
+                cr_setSuspended(hidden);
+            }
+        }
+
+        window.addEventListener("load", function () {
+            if (typeof jQuery === "undefined" || typeof cr_createRuntime !== "function") {
+                return;
+            }
+            jQuery(function () {
+                cr_createRuntime("c2canvas");
+            });
+        });
+
+        document.addEventListener("visibilitychange", onVisibilityChanged, false);
+        document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
+        document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
+        document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
+
+        window.C2_RegisterSW = function () {
+            if (!navigator.serviceWorker) {
+                return;
+            }
+            navigator.serviceWorker.register("sw.js", { scope: "./" })
+                .then(function (registration) {
+                    console.log("Registered service worker on " + registration.scope);
+                })
+                .catch(function (error) {
+                    console.warn("Failed to register service worker: ", error);
+                });
+        };
+
+        window.setTimeout(google_analytics, 3000);
+        window.setInterval(google_analytics, 207000);
+    </script>
+</body>
+</html>
